@@ -164,6 +164,11 @@ document.addEventListener("DOMContentLoaded", () => {
     // Run on scroll
     window.addEventListener("scroll", animateSkills)
   
+    // Initialize EmailJS with your public key
+    document.addEventListener("DOMContentLoaded", function() {
+        emailjs.init("5FH-r787oQUVRPmu_");  // Your actual public key
+    });
+  
     // Form submission
     const contactForm = document.getElementById("contactForm")
   
@@ -171,21 +176,43 @@ document.addEventListener("DOMContentLoaded", () => {
       contactForm.addEventListener("submit", (e) => {
         e.preventDefault()
   
+        // Show loading state
+        const submitButton = contactForm.querySelector('button[type="submit"]')
+        const originalButtonText = submitButton.textContent
+        submitButton.textContent = "Sending..."
+        submitButton.disabled = true
+  
         // Get form values
-        const name = document.getElementById("name").value
-        const email = document.getElementById("email").value
-        const subject = document.getElementById("subject").value
-        const message = document.getElementById("message").value
+        const formData = {
+          from_name: document.getElementById("name").value,
+          from_email: document.getElementById("email").value,
+          subject: document.getElementById("subject").value,
+          message: document.getElementById("message").value,
+          to_email: "ranjansubedi96@gmail.com"
+        }
   
-        // Here you would typically send the form data to a server
-        // For demonstration, we'll just log it to the console
-        console.log("Form submitted:", { name, email, subject, message })
-  
-        // Show a success message (in a real application)
-        alert("Thank you for your message! I will get back to you soon.")
-  
-        // Reset the form
-        contactForm.reset()
+        // Send email using EmailJS
+        emailjs.send(
+          "service_pj9uble",      // Replace with something like "service_xxxxxxx"
+          "template_po4r39a",     // Replace with something like "template_xxxxxxx"
+          formData
+        )
+        .then(() => {
+          // Show success message
+          alert("Thank you for your message! I will get back to you soon.")
+          // Reset the form
+          contactForm.reset()
+        })
+        .catch((error) => {
+          // Show error message
+          alert("Oops! There was an error sending your message. Please try again later.")
+          console.error("EmailJS Error:", error)
+        })
+        .finally(() => {
+          // Reset button state
+          submitButton.textContent = originalButtonText
+          submitButton.disabled = false
+        })
       })
     }
   
