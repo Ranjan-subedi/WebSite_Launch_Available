@@ -1,5 +1,8 @@
 // Wait for the DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", () => {
+    // Initialize EmailJS
+    emailjs.init("5FH-r787oQUVRPmu_");
+
     // Typing effect for role
     const roles = ["Web Developer", "UI/UX Designer", "Freelancer"]
     let roleIndex = 0
