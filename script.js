@@ -1,8 +1,21 @@
 // Initialize Email.js
-emailjs.init('5FH-r787oQUVRPmu_'); // Replace with your Email.js Public Key
+console.log('Checking Email.js...');
+
+if (typeof emailjs !== 'undefined') {
+    console.log('✓ Email.js library loaded successfully');
+    try {
+        emailjs.init('5FH-r787oQUVRPmu_');
+        console.log('✓ Email.js initialized with Public Key');
+    } catch (error) {
+        console.error('✗ Email.js initialization failed:', error);
+    }
+} else {
+    console.error('✗ Email.js library NOT loaded! Check CDN link in HTML head');
+}
 
 // Wait for the DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", () => {
+    console.log('DOM Content Loaded');
     
     // Email form submission
     const contactForm = document.getElementById('contactForm');
@@ -19,20 +32,41 @@ document.addEventListener("DOMContentLoaded", () => {
             const templateParams = {
                 name: document.getElementById('name').value,
                 email: document.getElementById('email').value,
-                subject: document.getElementById('subject').value,
-                message: document.getElementById('message').value
+                title: document.getElementById('subject').value,
+                message: document.getElementById('message').value,
+                time: new Date().toLocaleString()
             };
             
+            console.log('Sending email with params:', templateParams);
+            console.log('Service ID:', 'service_pj9uble');
+            console.log('Template ID:', 'template_po4r39a');
+            
+            // Add timeout to prevent infinite "Sending..."
+            const timeout = setTimeout(() => {
+                console.error('Email request timeout - no response from Email.js');
+                alert('⚠️ Request taking too long. Check:\n1. Your internet connection\n2. Email.js service status\n3. Gmail is connected in Email.js dashboard');
+                submitBtn.textContent = originalText;
+                submitBtn.disabled = false;
+            }, 15000); // 15 second timeout
+            
             emailjs.send('service_pj9uble', 'template_po4r39a', templateParams)
-                .then(() => {
+                .then((response) => {
+                    clearTimeout(timeout);
+                    console.log('✓ Email sent successfully:', response);
                     alert('✓ Message sent successfully! Thank you for reaching out.');
                     contactForm.reset();
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
                 })
                 .catch((error) => {
-                    alert('✗ Failed to send message. Please try again or email me directly.');
-                    console.error('Email.js Error:', error);
+                    clearTimeout(timeout);
+                    console.error('✗ Email.js Error:', error);
+                    console.error('Error details:', {
+                        text: error.text,
+                        status: error.status,
+                        message: error.message
+                    });
+                    alert('✗ Failed to send:\n' + (error.text || error.message || 'Unknown error'));
                     submitBtn.textContent = originalText;
                     submitBtn.disabled = false;
                 });
