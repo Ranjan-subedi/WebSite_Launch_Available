@@ -1,77 +1,77 @@
-// Initialize Email.js
-console.log('Checking Email.js...');
 
-if (typeof emailjs !== 'undefined') {
-    console.log('✓ Email.js library loaded successfully');
-    try {
-        emailjs.init('5FH-r787oQUVRPmu_');
-        console.log('✓ Email.js initialized with Public Key');
-    } catch (error) {
-        console.error('✗ Email.js initialization failed:', error);
-    }
-} else {
-    console.error('✗ Email.js library NOT loaded! Check CDN link in HTML head');
-}
+
+// // Initialize Email.js
+// console.log('Checking Email.js...');
+
+// if (typeof emailjs !== 'undefined') {
+//     console.log('✓ Email.js library loaded successfully');
+//     try {
+//         emailjs.init('5FH-r787oQUVRPmu_');
+//         console.log('✓ Email.js initialized with Public Key');
+//     } catch (error) {
+//         console.error('✗ Email.js initialization failed:', error);
+//     }
+// } else {
+//     console.error('✗ Email.js library NOT loaded! Check CDN link in HTML head');
+// }
 
 // Wait for the DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", () => {
-    console.log('DOM Content Loaded');
+
+    // console.log('DOM Content Loaded');
     
-    // Email form submission
-    const contactForm = document.getElementById('contactForm');
-    if (contactForm) {
-        contactForm.addEventListener('submit', (e) => {
-            e.preventDefault();
+    // // Email form submission
+    // const contactForm = document.getElementById('contactForm');
+    // if (contactForm) {
+    //     contactForm.addEventListener('submit', (e) => {
+    //         e.preventDefault();
             
-            const submitBtn = contactForm.querySelector('button[type="submit"]');
-            const originalText = submitBtn.textContent;
-            submitBtn.textContent = 'Sending...';
-            submitBtn.disabled = true;
+    //         const submitBtn = contactForm.querySelector('button[type="submit"]');
+    //         const originalText = submitBtn.textContent;
+    //         submitBtn.textContent = 'Sending...';
+    //         submitBtn.disabled = true;
             
-            // Create template variables from form
-            const templateParams = {
-                name: document.getElementById('name').value,
-                email: document.getElementById('email').value,
-                title: document.getElementById('subject').value,
-                message: document.getElementById('message').value,
-                time: new Date().toLocaleString()
-            };
+    //         // Create template variables from form
+    //         const templateParams = {
+    //             name: document.getElementById('name').value,
+    //             email: document.getElementById('email').value,
+    //             title: document.getElementById('subject').value,
+    //             message: document.getElementById('message').value,
+    //             time: new Date().toLocaleString()
+    //         };
             
-            console.log('Sending email with params:', templateParams);
-            console.log('Service ID:', 'service_pj9uble');
-            console.log('Template ID:', 'template_po4r39a');
+    //         console.log('Sending email with params:', templateParams);
+    //         console.log('Service ID:', 'service_pj9uble');
+    //         console.log('Template ID:', 'template_po4r39a');
             
-            // Add timeout to prevent infinite "Sending..."
-            const timeout = setTimeout(() => {
-                console.error('Email request timeout - no response from Email.js');
-                alert('⚠️ Request taking too long. Check:\n1. Your internet connection\n2. Email.js service status\n3. Gmail is connected in Email.js dashboard');
-                submitBtn.textContent = originalText;
-                submitBtn.disabled = false;
-            }, 15000); // 15 second timeout
+    //         // Add timeout to prevent infinite "Sending..."
+    //         const timeout = setTimeout(() => {
+    //             console.error('Email request timeout');
+    //             alert('✗ Request timed out. Please check your connection and try again.');
+    //             submitBtn.textContent = originalText;
+    //             submitBtn.disabled = false;
+    //         }, 10000); // 10 second timeout
             
-            emailjs.send('service_pj9uble', 'template_po4r39a', templateParams)
-                .then((response) => {
-                    clearTimeout(timeout);
-                    console.log('✓ Email sent successfully:', response);
-                    alert('✓ Message sent successfully! Thank you for reaching out.');
-                    contactForm.reset();
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                })
-                .catch((error) => {
-                    clearTimeout(timeout);
-                    console.error('✗ Email.js Error:', error);
-                    console.error('Error details:', {
-                        text: error.text,
-                        status: error.status,
-                        message: error.message
-                    });
-                    alert('✗ Failed to send:\n' + (error.text || error.message || 'Unknown error'));
-                    submitBtn.textContent = originalText;
-                    submitBtn.disabled = false;
-                });
-        });
-    }
+    //         emailjs.send('service_pj9uble', 'template_po4r39a', templateParams)
+    //             .then((response) => {
+    //                 clearTimeout(timeout);
+    //                 console.log('Email sent successfully:', response);
+    //                 alert('✓ Message sent successfully! Thank you for reaching out.');
+    //                 contactForm.reset();
+    //                 submitBtn.textContent = originalText;
+    //                 submitBtn.disabled = false;
+    //             })
+    //             .catch((error) => {
+    //                 clearTimeout(timeout);
+    //                 console.error('Email.js Error:', error);
+    //                 console.error('Error text:', error.text);
+    //                 console.error('Error status:', error.status);
+    //                 alert('✗ Failed to send: ' + (error.text || 'Unknown error. Check console for details.'));
+    //                 submitBtn.textContent = originalText;
+    //                 submitBtn.disabled = false;
+    //             });
+    //     });
+    // }
     
     // Typing effect for role
     const roles = ["Web Developer","App developer" ,"UI/UX Designer", "Freelancer"]
