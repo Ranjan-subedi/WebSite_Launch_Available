@@ -1,8 +1,6 @@
 // Wait for the DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", () => {
-    // Initialize EmailJS
-    emailjs.init("5FH-r787oQUVRPmu_");
-
+    
     // Typing effect for role
     const roles = ["Web Developer", "UI/UX Designer", "Freelancer"]
     let roleIndex = 0
@@ -144,33 +142,37 @@ document.addEventListener("DOMContentLoaded", () => {
       })
     })
   
-    // Animate skill progress bars when they come into view
+    // SKILL ANIMATION - Main fix
     const skillItems = document.querySelectorAll(".skill-item")
-  
+
     const animateSkills = () => {
       skillItems.forEach((item) => {
         const progressBar = item.querySelector(".progress-bar")
+        if (!progressBar) return
+        
         const percent = progressBar.getAttribute("data-percent")
-  
         const itemPosition = item.getBoundingClientRect().top
-        const screenPosition = window.innerHeight / 1.3
-  
-        if (itemPosition < screenPosition) {
-          progressBar.style.width = percent + "%"
+        const windowHeight = window.innerHeight
+
+        // Check if element is in view
+        if (itemPosition < windowHeight - 100) {
+          // Only animate if not already animated
+          if (!progressBar.classList.contains("animated")) {
+            progressBar.classList.add("animated")
+            progressBar.style.width = percent + "%"
+          }
         }
       })
     }
   
-    // Run once on page load
-    animateSkills()
+    // Run animation on page load
+    setTimeout(() => {
+      animateSkills()
+    }, 300)
   
     // Run on scroll
     window.addEventListener("scroll", animateSkills)
-  
-    // Initialize EmailJS with your public key
-    document.addEventListener("DOMContentLoaded", function() {
-        emailjs.init("5FH-r787oQUVRPmu_");  // Your actual public key
-    });
+
   
     // Form submission
     const contactForm = document.getElementById("contactForm")
@@ -342,31 +344,29 @@ document.addEventListener("DOMContentLoaded", () => {
     })
   
     // Add lazy loading for images to improve mobile performance
-    document.addEventListener("DOMContentLoaded", () => {
-      const lazyImages = document.querySelectorAll("img")
-  
-      if ("loading" in HTMLImageElement.prototype) {
-        // Browser supports native lazy loading
-        lazyImages.forEach((img) => {
-          img.loading = "lazy"
+    const lazyImages = document.querySelectorAll("img")
+
+    if ("loading" in HTMLImageElement.prototype) {
+      // Browser supports native lazy loading
+      lazyImages.forEach((img) => {
+        img.loading = "lazy"
+      })
+    } else {
+      // Fallback for browsers that don't support lazy loading
+      const lazyImageObserver = new IntersectionObserver((entries, observer) => {
+        entries.forEach((entry) => {
+          if (entry.isIntersecting) {
+            const lazyImage = entry.target
+            lazyImage.src = lazyImage.dataset.src
+            lazyImageObserver.unobserve(lazyImage)
+          }
         })
-      } else {
-        // Fallback for browsers that don't support lazy loading
-        const lazyImageObserver = new IntersectionObserver((entries, observer) => {
-          entries.forEach((entry) => {
-            if (entry.isIntersecting) {
-              const lazyImage = entry.target
-              lazyImage.src = lazyImage.dataset.src
-              lazyImageObserver.unobserve(lazyImage)
-            }
-          })
-        })
-  
-        lazyImages.forEach((lazyImage) => {
-          lazyImageObserver.observe(lazyImage)
-        })
-      }
-    })
+      })
+
+      lazyImages.forEach((lazyImage) => {
+        lazyImageObserver.observe(lazyImage)
+      })
+    }
   })
   
   
