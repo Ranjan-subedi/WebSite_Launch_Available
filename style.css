@@ -487,6 +487,19 @@
     transition: width 1.5s ease-in-out;
   }
   
+  .progress-bar.animated {
+    animation: fillProgressBar 1.5s ease-in-out forwards;
+  }
+  
+  @keyframes fillProgressBar {
+    from {
+      width: 0;
+    }
+    to {
+      width: var(--percent, 100%);
+    }
+  }
+  
   /* Projects Section */
   .projects {
     background-color: white;

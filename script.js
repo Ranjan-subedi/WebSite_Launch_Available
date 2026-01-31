@@ -1,5 +1,43 @@
+// Initialize Email.js
+emailjs.init('5FH-r787oQUVRPmu_'); // Replace with your Email.js Public Key
+
 // Wait for the DOM to be fully loaded
 document.addEventListener("DOMContentLoaded", () => {
+    
+    // Email form submission
+    const contactForm = document.getElementById('contactForm');
+    if (contactForm) {
+        contactForm.addEventListener('submit', (e) => {
+            e.preventDefault();
+            
+            const submitBtn = contactForm.querySelector('button[type="submit"]');
+            const originalText = submitBtn.textContent;
+            submitBtn.textContent = 'Sending...';
+            submitBtn.disabled = true;
+            
+            // Create template variables from form
+            const templateParams = {
+                name: document.getElementById('name').value,
+                email: document.getElementById('email').value,
+                subject: document.getElementById('subject').value,
+                message: document.getElementById('message').value
+            };
+            
+            emailjs.send('service_pj9uble', 'template_po4r39a', templateParams)
+                .then(() => {
+                    alert('✓ Message sent successfully! Thank you for reaching out.');
+                    contactForm.reset();
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                })
+                .catch((error) => {
+                    alert('✗ Failed to send message. Please try again or email me directly.');
+                    console.error('Email.js Error:', error);
+                    submitBtn.textContent = originalText;
+                    submitBtn.disabled = false;
+                });
+        });
+    }
     
     // Typing effect for role
     const roles = ["Web Developer","App developer" ,"UI/UX Designer", "Freelancer"]
@@ -174,52 +212,52 @@ document.addEventListener("DOMContentLoaded", () => {
     window.addEventListener("scroll", animateSkills)
 
   
-    // Form submission
-    const contactForm = document.getElementById("contactForm")
+    // // Form submission
+    // const contactForm = document.getElementById("contactForm")
+    
+    // if (contactForm) {
+    //   contactForm.addEventListener("submit", (e) => {
+    //     e.preventDefault()
   
-    if (contactForm) {
-      contactForm.addEventListener("submit", (e) => {
-        e.preventDefault()
+    //     // Show loading state
+    //     const submitButton = contactForm.querySelector('button[type="submit"]')
+    //     const originalButtonText = submitButton.textContent
+    //     submitButton.textContent = "Sending..."
+    //     submitButton.disabled = true
   
-        // Show loading state
-        const submitButton = contactForm.querySelector('button[type="submit"]')
-        const originalButtonText = submitButton.textContent
-        submitButton.textContent = "Sending..."
-        submitButton.disabled = true
+    //     // Get form values
+    //     const formData = {
+    //       from_name: document.getElementById("name").value,
+    //       from_email: document.getElementById("email").value,
+    //       subject: document.getElementById("subject").value,
+    //       message: document.getElementById("message").value,
+    //       to_email: "ranjansubedi96@gmail.com"
+    //     }
   
-        // Get form values
-        const formData = {
-          from_name: document.getElementById("name").value,
-          from_email: document.getElementById("email").value,
-          subject: document.getElementById("subject").value,
-          message: document.getElementById("message").value,
-          to_email: "ranjansubedi96@gmail.com"
-        }
-  
-        // Send email using EmailJS
-        emailjs.send(
-          "service_pj9uble",      // Replace with something like "service_xxxxxxx"
-          "template_po4r39a",     // Replace with something like "template_xxxxxxx"
-          formData
-        )
-        .then(() => {
-          // Show success message
-          alert("Thank you for your message! I will get back to you soon.")
-          // Reset the form
-          contactForm.reset()
-        })
-        .catch((error) => {
-          // Show error message
-          alert("Oops! There was an error sending your message. Please try again later.")
-          console.error("EmailJS Error:", error)
-        })
-        .finally(() => {
-          // Reset button state
-          submitButton.textContent = originalButtonText
-          submitButton.disabled = false
-        })
-      })
-    }
+    //     // Send email using EmailJS
+    //     emailjs.send(
+    //       "service_pj9uble",      // Replace with something like "service_xxxxxxx"
+    //       "template_po4r39a",     // Replace with something like "template_xxxxxxx"
+    //       formData
+    //     )
+    //     .then(() => {
+    //       // Show success message
+    //       alert("Thank you for your message! I will get back to you soon.")
+    //       // Reset the form
+    //       contactForm.reset()
+    //     })
+    //     .catch((error) => {
+    //       // Show error message
+    //       alert("Oops! There was an error sending your message. Please try again later.")
+    //       console.error("EmailJS Error:", error)
+    //     })
+    //     .finally(() => {
+    //       // Reset button state
+    //       submitButton.textContent = originalButtonText
+    //       submitButton.disabled = false
+    //     })
+    //   })
+    // }
   
     // Smooth scrolling for anchor links
     document.querySelectorAll('a[href^="#"]').forEach((anchor) => {
