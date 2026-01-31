@@ -2,7 +2,7 @@
 document.addEventListener("DOMContentLoaded", () => {
     
     // Typing effect for role
-    const roles = ["Web Developer", "UI/UX Designer", "Freelancer"]
+    const roles = ["Web Developer","App developer" ,"UI/UX Designer", "Freelancer"]
     let roleIndex = 0
     let charIndex = 0
     let isDeleting = false
